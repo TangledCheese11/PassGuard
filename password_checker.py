@@ -1,3 +1,19 @@
+import sys
+
+# Detect if the terminal supports ANSI colours
+supports_color = sys.stdout.isatty()
+
+# Safe colour wrapper
+def color(text, code):
+    return f"{code}{text}\033[0m" if supports_color else text
+
+# Colour codes
+ORANGE = "\033[38;5;208m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+RESET = "\033[0m"
+
 password = input("Enter your password: ")
 password_len = len(password)
 numb = False
@@ -44,12 +60,6 @@ if special == False:
 # Testing Password Length
 length_score = min(password_len * 4,40)
 
-#Set colors of strength
-RED     = "\033[31m"
-ORANGE  = "\033[38;5;208m"  
-YELLOW  = "\033[33m"
-GREEN   = "\033[32m"
-RESET   = "\033[0m"
 
 #Bar of strength
 total = length_score + score
@@ -61,18 +71,17 @@ bar = "▰" * filled + "▱" * empty
 
 # Return password strength
 if total <= 30:
-     print(RED,"CRITICAL WARNING! Your password integrity is very weak at",total,"%",RESET)
-     print(RED + f"[{bar}] {total}%" + RESET)
+    print(color(f"CRITICAL WARNING! Your password integrity is very weak at {total}%", RED))
+    print(color(f"[{bar}] {total}%", RED))
 
 elif total <= 60:
-     print(ORANGE,"It is reccomended to change your password! Current strength at",total,"%",RESET)
-     print(ORANGE + f"[{bar}] {total}%" + RESET)
+    print(color(f"It is recommended to change your password! Current strength at {total}%", ORANGE))
+    print(color(f"[{bar}] {total}%", ORANGE))
 
 elif total <= 80:
-     print(YELLOW,"Moderate level password, Strength at ",total,"%",RESET)
-     print(YELLOW + f"[{bar}] {total}%" + RESET)
+    print(color(f"Moderate level password, Strength at {total}%", YELLOW))
+    print(color(f"[{bar}] {total}%", YELLOW))
 
 else:
-      if total <= 100:
-        print(GREEN,"Optimal password! High security",total,"%",RESET)
-        print(GREEN + f"[{bar}] {total}%" + RESET)
+    print(color(f"Optimal password! High security {total}%", GREEN))
+    print(color(f"[{bar}] {total}%", GREEN))
