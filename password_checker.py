@@ -1,18 +1,17 @@
 import sys
 
-# Detect if the terminal supports ANSI colours
-supports_color = sys.stdout.isatty()
+# Disable colours in IDLE
+supports_color = sys.stdout.isatty() and "idlelib" not in sys.modules
 
-# Safe colour wrapper
 def color(text, code):
     return f"{code}{text}\033[0m" if supports_color else text
 
-# Colour codes
 ORANGE = "\033[38;5;208m"
 RED = "\033[31m"
 GREEN = "\033[32m"
 YELLOW = "\033[33m"
 RESET = "\033[0m"
+
 
 password = input("Enter your password: ")
 password_len = len(password)
